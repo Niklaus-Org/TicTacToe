@@ -27,12 +27,12 @@ public class GameController {
         return null;
     }
 
-    public void getGameState() {
-
+    public void printGame(Game game) {
+        game.printBoard();
     }
 
-    public void makeMove() {
-
+    public void makeMove(Game game) {
+        game.makeMove();
     }
 
     public void undo() {

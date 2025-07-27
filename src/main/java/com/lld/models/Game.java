@@ -8,6 +8,7 @@ import com.lld.strategies.winningstrategies.WinningStrategy;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 
 public class Game {
 
@@ -31,6 +32,37 @@ public class Game {
 
     public static GameBuilder getBuilder() {
         return new GameBuilder();
+    }
+
+    public void makeMove() {
+        Player currPlayer = players.get(nextMoveIndex);
+
+        System.out.println("Current player name is: "+currPlayer.getName());
+
+        Move move = currPlayer.makeMove(this.board);
+
+        System.out.println("Player wants to make a move at: " + move.getCell().toString());
+
+        //Add a player symbol in the board.
+        int row = move.getCell().getRow();
+        int col = move.getCell().getColumn();
+
+        Cell cellToChange = board.getBoard().get(row).get(col);
+        cellToChange.setPlayer(currPlayer);
+        cellToChange.setCellState(CellState.FILLED);
+
+        Move finalMove = new Move(currPlayer, cellToChange);
+
+        moves.add(finalMove); //maintaining the list of moves
+
+        nextMoveIndex += 1%players.size(); //nex play turn after prev final-Move happen just now
+
+    }
+
+    public void printBoard() {
+        for(List<Cell> row: board.getBoard()) {
+            System.out.println(row.toString());
+        }
     }
 
 
