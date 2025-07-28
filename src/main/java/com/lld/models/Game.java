@@ -1,5 +1,6 @@
 package com.lld.models;
 
+import com.lld.exceptions.CannotUndoException;
 import com.lld.exceptions.InvalidBotCountException;
 import com.lld.exceptions.InvalidPlayerCountException;
 import com.lld.exceptions.PlayersNotUniqueException;
@@ -68,6 +69,29 @@ public class Game {
         }
 
     }
+
+    public void undo() throws CannotUndoException {
+        // find the last move and same time
+        // remove the respective hashmap strategies tracking that move
+        //cell state should marked as empty
+        if(moves.isEmpty()) {
+            throw new CannotUndoException("Cannot undo as there are no moves made yet");
+        }
+
+        Move lastMove = moves.getLast();
+        moves.remove(lastMove);
+        Cell lastMoveCell = lastMove.getCell();
+        lastMoveCell.setCellState(CellState.EMPTY);
+        lastMoveCell.setPlayer(null);
+
+        for(WinningStrategy strategy: winningStrategy) {
+            strategy.handleundo(board, lastMove);
+        }
+
+        nextMoveIndex -= 1;
+        nextMoveIndex = (nextMoveIndex+players.size()) % players.size();
+    }
+
 
     public boolean checkWinner(Move move) {
         for(WinningStrategy strategy: winningStrategy) {

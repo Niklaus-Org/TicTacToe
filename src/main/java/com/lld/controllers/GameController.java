@@ -1,5 +1,6 @@
 package com.lld.controllers;
 
+import com.lld.exceptions.CannotUndoException;
 import com.lld.exceptions.InvalidBotCountException;
 import com.lld.exceptions.InvalidPlayerCountException;
 import com.lld.exceptions.PlayersNotUniqueException;
@@ -35,7 +36,7 @@ public class GameController {
         game.makeMove();
     }
 
-    public void undo() {
-
+    public void undo(Game game) throws CannotUndoException {
+        game.undo();
     }
 }
