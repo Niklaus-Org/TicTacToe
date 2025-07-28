@@ -20,7 +20,7 @@ public class Main {
         List<Player> players = new ArrayList<>();
 
         players.add(new Player("nikki",1, new Symbol('X'), PlayerType.HUMAN));
-        players.add(new Player("nikki",2, new Symbol('Y'), PlayerType.HUMAN));
+        players.add(new Bot("bot",2, new Symbol('Y'), PlayerType.BOT, BotDifficultyLevel.EASY));
 
         List<WinningStrategy> winningStrategies = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class Main {
         winningStrategies.add(new ColumnWinningStrategy());
         winningStrategies.add(new DiagonalWinningStrategy());
 
-        int nextPlayerMoveIndex = 1;
+        int nextPlayerMoveIndex = 0;
 
         GameController gameController = new GameController();
 
@@ -36,11 +36,13 @@ public class Main {
 
         while(game.getGameState().equals(GameState.IN_PROGRESS)) {
             //state of game
+            gameController.printGame(game);
             //make a move
-            // next player change
-            // check winner
+            gameController.makeMove(game);
 
         }
+
+        gameController.printGame(game);
 
     }
 }

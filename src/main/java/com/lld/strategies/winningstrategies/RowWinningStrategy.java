@@ -28,6 +28,10 @@ public class RowWinningStrategy implements WinningStrategy {
         //set that row symbol count as we got the row symbols map
         symbolCount.put(symbol, symbolCount.getOrDefault(symbol, 0) + 1);
 
+        if(symbolCount.get(symbol) == board.getDimension()) {
+            System.out.println("Player has won by row strategy by crossing: "+ row+ " row");
+        }
+
         return symbolCount.get(symbol) == board.getDimension();
     }
 }

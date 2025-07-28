@@ -23,6 +23,10 @@ public class ColumnWinningStrategy implements WinningStrategy {
 
         symbolCount.put(symbol, symbolCount.getOrDefault(symbol, 0) + 1);
 
+        if(symbolCount.get(symbol) == board.getDimension()) {
+            System.out.println("Player has won by column strategy by crossing: "+col+" column");
+        }
+
         return symbolCount.get(symbol) == board.getDimension();
     }
 }

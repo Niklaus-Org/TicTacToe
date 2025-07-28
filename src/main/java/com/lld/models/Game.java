@@ -35,7 +35,7 @@ public class Game {
     }
 
     public void makeMove() {
-        Player currPlayer = players.get(nextMoveIndex);
+        Player currPlayer = players.get(nextMoveIndex%players.size());
 
         System.out.println("Current player name is: "+currPlayer.getName());
 
@@ -57,11 +57,38 @@ public class Game {
 
         nextMoveIndex += 1%players.size(); //nex play turn after prev final-Move happen just now
 
+        //check if that move makes the player winner?
+        if(checkWinner(finalMove)) {
+            winner = currPlayer;
+            gameState = GameState.ENDED;
+            System.out.println(currPlayer.toString() + " has won the game");
+
+        } else if(moves.size()==board.getDimension()*board.getDimension()) { // no valid moves left
+            gameState = GameState.DRAW;
+        }
+
+    }
+
+    public boolean checkWinner(Move move) {
+        for(WinningStrategy strategy: winningStrategy) {
+            if(strategy.checkWinner(board, move)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void printBoard() {
         for(List<Cell> row: board.getBoard()) {
-            System.out.println(row.toString());
+            for(Cell cell : row) {
+                if(cell.getCellState().equals(CellState.EMPTY)) {
+                    System.out.print("|  |");
+                } else {
+                    System.out.print("| " + cell.getPlayer().getSymbol().getaChar() + " |");
+                }
+            }
+            System.out.println();
         }
     }
 
